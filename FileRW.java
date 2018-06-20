@@ -17,6 +17,7 @@ import java.util.Date;
  */
 
 public class FileRW {
+    //
     private static boolean DEBUG = false;
     private static final String TAG = "ftc9773: FileRW";
     File file = null;

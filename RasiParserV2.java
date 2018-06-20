@@ -27,7 +27,7 @@ public class RasiParserV2 {
     private String returnString;            //The String which contains the index to be
     private String Tag;
     private String[] TAGS = new String[0];
-    private String[] reservedCommands = {"end", "changetags"};
+    private String[] reservedCommands = {"end", "changetags", "addtag", "removetag"};
     private boolean shouldExecute = false;
     private boolean isReservedCommand;
 
