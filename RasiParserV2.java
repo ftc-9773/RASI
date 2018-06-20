@@ -106,7 +106,12 @@ public class RasiParserV2 {
                     TAGS[n] = parameters[n+1];
                 }
                 break;
-
+            case "addtag":
+            	addTag(parameters[n+1]);
+            	break;
+            case "removetag":
+            	removeTag(parameters[n+1]);
+            	break;
             case "end":
                 linearOpMode.requestOpModeStop();
                 while(linearOpMode.opModeIsActive()){}
