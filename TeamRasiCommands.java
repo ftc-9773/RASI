@@ -2,8 +2,9 @@ package org.firstinspires.ftc.teamcode.RASIV2;
 
 import android.util.Log;
 
-import import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.resources.Timer;
 import java.math.*;
 
 /**

@@ -2,8 +2,7 @@ package org.firstinspires.ftc.teamcode.RASIV2;
 
 import android.util.Log;
 
-import import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;;
-
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -18,7 +17,7 @@ public class RasiExecutor {
     private int numberOfParams;
     private String LOG_TAG = "RasiExecutor";
     private RasiParserV2 rasiParser;
-    private LinearOpModeCamera linearOpMode;
+    private LinearOpMode linearOpMode;
     private HashMap<String, String> hashMap;
     private TeamRasiCommands teamRasiCommands;
     private String methodString;
@@ -36,7 +35,7 @@ public class RasiExecutor {
 
     public RasiExecutor(LinearOpMode linearOpMode, String filepath, String filename){
         this.linearOpMode = linearOpMode;
-        teamRasiCommands = new TeamRasiCommands linearOpMode);
+        teamRasiCommands = new TeamRasiCommands(linearOpMode);
         rasiParser = new RasiParserV2(filepath, filename, linearOpMode);
         hashMap = new HashMap<String, String>();
         infoHashmap = new HashMap<String, String[]>();
@@ -45,7 +44,7 @@ public class RasiExecutor {
         for(int x = 0; x < teamRasiCommands.getClass().getMethods().length; x++){ //runs for every method in the TeamRasiCommands Class
             //Log.d("RasiExecutor", Integer.toString(x));
 
-            if linearOpMode.isStopRequested())
+            if(linearOpMode.isStopRequested())
                 break;
 
             if(teamRasiCommands.getClass().getMethods()[x].toString().contains("TeamRasiCommands.")){ //filters out the stuff that java puts there and hides.
@@ -100,7 +99,7 @@ public class RasiExecutor {
     }
 
     public void runRasi() {
-        while ( linearOpMode.isStopRequested()) {
+        while (!linearOpMode.isStopRequested()) {
             command = rasiParser.getCommand();
             //Log.d("RasiCommand", hashMap.get(command.toLowerCase()));
             //Log.d("infohashmapout", infoHashmap.get(hashMap.get(command.toLowerCase())).toString());

@@ -2,11 +2,10 @@ package org.firstinspires.ftc.teamcode.RASIV2;
 
 import android.util.Log;
 
-import import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -16,7 +15,6 @@ import java.util.Scanner;
 
 public class RasiParserV2 {
     private String TAG = "TeamRasiCommands";
-
 
     private LinearOpMode linearOpMode;
 
