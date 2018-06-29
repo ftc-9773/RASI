@@ -21,7 +21,7 @@ RASI Syntax:
     RASI tags:
 
         Rasi has basic flow control through the use of tags. Tags precede a 
-	command and determine whether or not it runs, The have the form:
+		command and determine whether or not it runs, The have the form:
 
     tag: command, argument1, argument2, argument3
 
