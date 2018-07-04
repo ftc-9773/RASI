@@ -107,13 +107,10 @@ public class RasiParser {
                 }
                 break;
             case "addtag":
-                // TODO: used to be an n here. idk what it was supposed to be, but his was my guess
-                addTag(parameters[0+1]);
+                addTag(parameters[n+1]);
                 break;
             case "removetag":
-                // TODO: used to be an n here. idk what it was supposed to be, but his was my guess
-
-                removeTag(parameters[0+1]);
+                removeTag(parameters[n+1]);
                 break;
             case "end":
                 linearOpMode.requestOpModeStop();
@@ -121,7 +118,6 @@ public class RasiParser {
                 break;
         }
     }
-
     public void setTags(String rasiTags[]){
         TAGS = rasiTags;
     }
