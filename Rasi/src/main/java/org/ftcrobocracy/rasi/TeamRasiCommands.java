@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.RASIV2;
+package org.ftcrobocracy.rasi;
 
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.resources.Timer;
+
 import java.math.*;
 
 /**

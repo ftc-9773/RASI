@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RASIV2;
+package org.ftcrobocracy.rasi;
 
 import android.util.Log;
 
@@ -13,7 +13,7 @@ import java.util.Scanner;
  * Created by vikesh on 12/26/17.
  */
 
-public class RasiParserV2 {
+public class RasiParser {
     private String TAG = "TeamRasiCommands";
 
     private LinearOpMode linearOpMode;
@@ -31,7 +31,7 @@ public class RasiParserV2 {
     private boolean shouldExecute = false;
     private boolean isReservedCommand;
 
-    public RasiParserV2(String filepath, String filename, LinearOpMode linearOpMode){
+    public RasiParser(String filepath, String filename, LinearOpMode linearOpMode){
 
         this.linearOpMode = linearOpMode;
         //Make sure file extension is rasi
@@ -107,11 +107,11 @@ public class RasiParserV2 {
                 }
                 break;
             case "addtag":
-            	addTag(parameters[n+1]);
-            	break;
+                addTag(parameters[n+1]);
+                break;
             case "removetag":
-            	removeTag(parameters[n+1]);
-            	break;
+                removeTag(parameters[n+1]);
+                break;
             case "end":
                 linearOpMode.requestOpModeStop();
                 while(linearOpMode.opModeIsActive()){}

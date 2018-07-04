@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RASIV2;
+package org.ftcrobocracy.rasi;
 
 import android.util.Log;
 
@@ -16,7 +16,7 @@ public class RasiExecutor {
     private boolean isnull;
     private int numberOfParams;
     private String LOG_TAG = "RasiExecutor";
-    private RasiParserV2 rasiParser;
+    private RasiParser rasiParser;
     private LinearOpMode linearOpMode;
     private HashMap<String, String> hashMap;
     private TeamRasiCommands teamRasiCommands;
@@ -36,7 +36,7 @@ public class RasiExecutor {
     public RasiExecutor(LinearOpMode linearOpMode, String filepath, String filename){
         this.linearOpMode = linearOpMode;
         teamRasiCommands = new TeamRasiCommands(linearOpMode);
-        rasiParser = new RasiParserV2(filepath, filename, linearOpMode);
+        rasiParser = new RasiParser(filepath, filename, linearOpMode);
         hashMap = new HashMap<String, String>();
         infoHashmap = new HashMap<String, String[]>();
         methodsHashMap = new HashMap<String, Method>();
@@ -149,22 +149,21 @@ public class RasiExecutor {
                 //Log.d("finalparamsisnull", "true");
             }
             if(finalParameters != null)
-              //  Log.d("rasifinalparams", Arrays.asList(finalParameters).toString());
+                //  Log.d("rasifinalparams", Arrays.asList(finalParameters).toString());
 
             /*try {
                 method = teamRasiCommands.getClass().getMethod(hashMap.get(command.toLowerCase()));
-
             } catch (NoSuchMethodException e) {
                 Log.e("RasiExecutor", "NoSuchMethodException");
             }*/
-            //Log.d("RasiExecutor", method.toString());
-            try {
-                methodsHashMap.get(hashMap.get(command.toLowerCase())).invoke(teamRasiCommands, finalParameters);
-            } catch (IllegalAccessException e) {
-                Log.e("rasiExecutor", "illegalAccessException");
-            } catch (InvocationTargetException e) {
-                Log.e("rasiExecutor", "InvocationTargetException");
-            }
+                //Log.d("RasiExecutor", method.toString());
+                try {
+                    methodsHashMap.get(hashMap.get(command.toLowerCase())).invoke(teamRasiCommands, finalParameters);
+                } catch (IllegalAccessException e) {
+                    Log.e("rasiExecutor", "illegalAccessException");
+                } catch (InvocationTargetException e) {
+                    Log.e("rasiExecutor", "InvocationTargetException");
+                }
         }
     }
     public void setTags(String[] Tags){ //sets the rasi tags
