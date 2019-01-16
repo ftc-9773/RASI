@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
 
 
@@ -34,7 +34,7 @@ repositories {
 
 
 dependencies {
-    compile(name: 'RobotCore-release', ext: 'aar')
+    api(name: 'RobotCore-release', ext: 'aar')
 }
 
 
