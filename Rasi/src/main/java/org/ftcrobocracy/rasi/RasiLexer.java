@@ -1,4 +1,12 @@
-package org.ftcrobocracy.rasi;
+package org.firstinspires.ftc.teamcode.RASI.Rasi;
+
+//
+// import android.support.annotation.NonNull;
+// import android.util.
+//
+// import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+//
+// import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import android.util.Log;
 
@@ -8,49 +16,82 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.NoSuchElementException;
 
 /**
- * Created by vikesh on 12/26/17.
+ * This class acts as a lexer for RASI files to be used by RasiInterpreter
+ * In general, this class should not be used on its own.
+ * If you would like File input and Output, see FileRW or built in java utilities
+ *
+ * For more detail on RASI itself, see RasiCommands and RASI/guides/*
+ * TODO: create guides and documentation
+ *
+ * @author vikesh cadence
+ * @version 2.5
  */
+public class RasiLexer {
+    //Tag to use for telemetry
+    private String TAG = "RasiCommands:";
+    private LinearOpMode opMode;
 
-public class RasiParser {
-    private String TAG = "TeamRasiCommands";
+    //Toggle for whether to send stuff to debug
+    private static boolean DEBUG = true;
 
-    private LinearOpMode linearOpMode;
-
+    //File io utilities
     private File rasiFile;                  //File object for the rasi file
     private Scanner fileScanner;            //Scanner object to read the file line by line
-    private StringBuilder commandBuilder;   //StringBuilder object for miscellaneous manipulation
+    public boolean fileEnded = false;
 
+    //Objects to be returned to RasiInterpreter and Utilities for building them
+    private StringBuilder commandBuilder;   //StringBuilder object for miscellaneous manipulation
     private String currentCommand;          //The String that will contain the current command
     public String[] parameters;            //The String array that contains the parameters
-    private String returnString;            //The String which contains the index to be
+
+    //Utilites for managing tags and reserved commands.
     private String Tag;
     private String[] TAGS = new String[0];
-    private String[] reservedCommands = {"end", "changetags", "addtag", "removetag"};
+    private String[] reservedCommands = {"changetags", "addtag", "removetag", "endOpMode"};
     private boolean shouldExecute = false;
     private boolean isReservedCommand;
 
-    public RasiParser(String filepath, String filename, LinearOpMode linearOpMode){
-
-        this.linearOpMode = linearOpMode;
+    //LinearOpMode
+    /**
+     * Initialise lexer to a file located at filepath, with name filename
+     *
+     * @param filepath Path to rasi file
+     * @param filename name of rasi file, including the extension .rasi
+     * @param opmode LinearOpMode
+     * */
+    public RasiLexer(String filepath, String filename, LinearOpMode opmode){
+        opMode = opmode;
         //Make sure file extension is rasi
-        Log.i(TAG, filepath+filename);
-        Log.i(TAG, filename.split("\\.")[1].toLowerCase());
         if(filename.split("\\.")[1].toLowerCase().equals("rasi")){
             rasiFile = new File(filepath + filename);
-            Log.i(TAG,filepath+filename);
+
             try {
                 fileScanner = new Scanner(rasiFile);
+            } catch(FileNotFoundException e){
+                 Log.e(TAG, "File " + rasiFile + " not found.", e);
             }
-            catch(FileNotFoundException e){
-                Log.e(TAG, "FileNotFoundException");
-            }
-        }
+      } else {
+
+      }
     }
 
+    /**
+     * Gets the next command from the file and stores it in currentCommand
+     * If it is reserved, it runs it.
+     * */
     private void loadNextCommand(){
+        //TODO: this currently might end the file whenever a blankline is found. also can use scanner.hasNextLine
+        try {
         currentCommand = fileScanner.nextLine();
+        }
+        catch (NoSuchElementException e) {
+            fileEnded = true;
+            return;
+        }
+
         commandBuilder = new StringBuilder(currentCommand);
 
         int index = 0;
@@ -62,12 +103,10 @@ public class RasiParser {
                 index++;
             }
         }
-        if(currentCommand.split(":").length>1) {
-            Tag = currentCommand.split(":")[0];
-        }
-        else{
-            Tag = "";
-        }
+
+        if(currentCommand.split(":").length>1) {Tag = currentCommand.split(":")[0];}
+        else{Tag = "";}
+
         if(Tag != "") {
             parameters = currentCommand.split(":")[1].split(",");
         }
@@ -87,10 +126,18 @@ public class RasiParser {
             runReservedCommand(parameters[0]);
         }
     }
+    /**
+     * Return the next command in file
+     * */
     public String getCommand(){
+        if (fileEnded)
+            return null;
         loadNextCommand();
-        while(!shouldExecute && linearOpMode.opModeIsActive()) {
+        while(!shouldExecute && !fileEnded) {
             loadNextCommand();
+        }
+        if (fileEnded){
+            return null;
         }
         return parameters[0];
     }
@@ -98,6 +145,9 @@ public class RasiParser {
         return parameters[paramNumber];
     }
 
+    /**
+     * Run a reserved command
+     * */
     public void runReservedCommand(String command){
         switch (command){
             case "changetags":
@@ -107,17 +157,17 @@ public class RasiParser {
                 }
                 break;
             case "addtag":
-                // TODO: used to be an n here. idk what it was supposed to be, but his was my guess
-                addTag(parameters[0+1]);
+                addTag(parameters[1]);
                 break;
             case "removetag":
-                // TODO: used to be an n here. idk what it was supposed to be, but his was my guess
-
-                removeTag(parameters[0+1]);
+                removeTag(parameters[1]);
+                break;
+            case "endOpMode":
+                opMode.requestOpModeStop();
+                while(opMode.opModeIsActive()){}
                 break;
             case "end":
-                linearOpMode.requestOpModeStop();
-                while(linearOpMode.opModeIsActive()){}
+                fileEnded = true;
                 break;
         }
     }
@@ -139,6 +189,7 @@ public class RasiParser {
             }
         }
     }
+
     public void removeTag(String rasiTag){
         int y;
         String[] tempTags = TAGS;
@@ -150,5 +201,11 @@ public class RasiParser {
                 }
             }
         }
+    }
+    public void debug(String msg){
+
+    }
+    public void debug(String msg, Exception e){
+
     }
 }
